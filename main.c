@@ -3,11 +3,36 @@
 #include <string.h>
 #include <windows.h>
 
+int signup_count = 0;
+
 void gamehub_menu();         // main menu - shows game hub with sign up and login option
 int gamehub_menu_function(); // takes input for signup and login options
-void takepass();             // take first time (or) new password from user with masking of '*'
-int signup();                // take confirmation password from user with masking of '*'
-int login();                 // not defined yet
+void takepass();
+void checkpass(); // take first time (or) new password from user with masking of '*'
+int signup();     // take confirmation password from user with masking of '*'
+int login();      // not defined yet
+void about_us()   // ABOUT US MENU
+{
+    char ch;
+    printf("\n\t\t================== ABOUT GAME-HUB ==================\n");
+    printf("\n\t\twelcome to the (Game-Hub) program.\n\t\tGame-Hub is a console project. Here,\n\t\tThe user is going to create an account and can play many games,\n\t\tand this activity will be saved here with lot of information.\n\t\tThis project is build in c language.\n");
+    printf("\n\t\t====================================================\n");
+    while (1)
+    {
+        printf("\n\n\t\tPRESS 'B' TO RETURN TO MAIN MENU : ");
+        ch = toupper(getch());
+        if (ch == 'B')
+        {
+            loading();
+            main();
+            break;
+        }
+        else
+        {
+            printf("\n\t\tWRONG INPUT\n");
+        }
+    }
+}
 
 clear_screen() // clear screen function
 {
@@ -17,6 +42,7 @@ sound() // beep(800,300);
 {
     Beep(800, 300);
 }
+
 void blue() // text color
 {
     system("color 1");
@@ -40,18 +66,19 @@ void white() // text color white
 int loading() // loading view
 {
     clear_screen();
-    int ch = 177;   //space ascii value
+    int ch = 177; // space ascii value
     printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\tPLEASE WAIT, LOADING...\n\t\t\t\t");
     for (int i = 0; i < 80; i++)
     {
         green();
-        printf("%c", ch); //prints coloured spaces
+        printf("%c", ch); // prints coloured spaces
         Sleep(5);
     }
     printf("\n\t\t");
     white();
     return 0;
 }
+
 struct details // signup variables are located
 {
     char first_name[50];
@@ -60,7 +87,7 @@ struct details // signup variables are located
     char gender[7];
     char email[30];
     char username[30];
-    char pass[9];
+    char pass[30];
 };
 
 int main()
@@ -115,25 +142,23 @@ int gamehub_menu_function() // takes input for signup and login options
         ch = getch();
         sound();
         sleep(0.5);
-        if (ch == '1')
+        if (ch == '1') // SIGNUP
         {
             clear_screen();
-            // loading();
             signup();
             break;
         }
-        else if (ch == '2')
+        else if (ch == '2') // LOGIN
         {
             clear_screen();
-            printf("bye");
-            // login();
+            login();
             while (1)
-            {    
-            printf("\n\n\t\tPRESS 'B' TO RETURN TO MAIN MENU : ");
-            ch = toupper(getch());
-             if (ch == 'B')
+            {
+                printf("\n\n\t\tPRESS 'B' TO RETURN TO MAIN MENU : ");
+                ch = toupper(getch());
+                if (ch == 'B')
                 {
-                    // loading();
+                    loading();
                     main();
                     break;
                 }
@@ -142,32 +167,15 @@ int gamehub_menu_function() // takes input for signup and login options
                     printf("\n\t\tWRONG INPUT\n");
                 }
             }
-            // break;
         }
-        else if (ch == '3')
+        else if (ch == '3') // about us
         {
             clear_screen();
-            printf("about us");
-            // login();
-            while (1)
-            {    
-            printf("\n\n\t\tPRESS 'B' TO RETURN TO MAIN MENU : ");
-            ch = toupper(getch());
-             if (ch == 'B')
-                {
-                    // loading();
-                    main();
-                    break;
-                }
-                else
-                {
-                    printf("\n\t\tWRONG INPUT\n");
-                }
-            }
-            // break;
+            about_us();
         }
-        else if (ch == '4')
+        else if (ch == '4') // Quit game-hub
         {
+            printf("\n\n\t\tTHANK YOU FOR VISITING GAME-HUB\n\n");
             exit(1);
             break;
         }
@@ -258,20 +266,43 @@ int signup() // sign up function - take details and store in "gamehub.txt" file 
     fflush(stdin);
     gets(gh.email);
 
-    printf("\t\t ENTER GAMEHUB USERNAME [MAX 30 - CHARACTERS]: ");
-    fflush(stdin);
-    gets(gh.username);
+    while (1)
+    {
+        printf("\t\t ENTER GAMEHUB USERNAME [MAX 30 - CHARACTERS]: ");
+        fflush(stdin);
+        gets(gh.username);
+        if (strlen(gh.username) > 30) // checks the length of username
+        {
+            printf("\t\t USERNAME TOO LONG\n");
+        }
+        else
+        {
+            break;
+        }
+    }
 
-    printf("\t\t ENTER GAMEHUB PASSWORD [MAX 8 - CHARACTERS] : ");
-    fflush(stdin);
-    takepass(gh.pass);
+    while (1)
+    {
+        printf("\t\t ENTER GAMEHUB PASSWORD [MIN 4 - CHARACTERS] : ");
+        fflush(stdin);
+        takepass(gh.pass);
+        if (strlen(gh.pass) < 4) // checks the length of password
+        {
+            printf("\n\t\t PASSWORD TOO SHORT\n");
+        }
+        else
+        {
+            break;
+        }
+    }
+
     while (1)
     {
         printf("\n\t\t CONFIRM PASSWORD : ");
         fflush(stdin);
 
-        checkpass(check_pass);//confirming password
-        if (strcmp(gh.pass, check_pass) != 0) //comparing both passwords
+        checkpass(check_pass);                // confirming password
+        if (strcmp(gh.pass, check_pass) != 0) // comparing both passwords
         {
             printf("\n\t\t INCORRECT PASSWORD\n");
             while (1)
@@ -296,17 +327,17 @@ int signup() // sign up function - take details and store in "gamehub.txt" file 
         else
         {
             FILE *ptr = NULL;
-            ptr = fopen("gamehub.txt", "ab");
+            ptr = fopen("gamehub.txt", "wb");
             fwrite(&gh, sizeof(struct details), 1, ptr);
             fclose(ptr);
-            
+
             printf("\n\n\t\t ================ SUCCESSFULLY SIGNED - IN =================\n\n");
-            
+            signup_count++;
             while (1)
-            {    
-            printf("\n\n\t\tPRESS 'B' TO RETURN TO MAIN MENU : ");
-            ch = toupper(getch());
-             if (ch == 'B')
+            {
+                printf("\n\n\t\tPRESS 'B' TO RETURN TO MAIN MENU : ");
+                ch = toupper(getch());
+                if (ch == 'B')
                 {
                     loading();
                     main();
@@ -320,5 +351,57 @@ int signup() // sign up function - take details and store in "gamehub.txt" file 
             break;
         }
     }
+    return 0;
+}
+int login()
+{
+    struct details gh;
+    char check_pass[9];                    // local variable for confirmation password
+    char ch, username[30], login_pass[30]; // variable for input for returning to main menu
+    FILE *ptr = NULL;
+    ptr = fopen("gamehub.txt", "rb");
+    if (signup_count != 0)
+    {
+
+        printf("\t\t ================== GAMEHUB LOGIN-IN PAGE ==================\n\n");
+        while (fread(&gh, sizeof(struct details), 1, ptr))
+        {
+
+            while (1)
+            {
+                printf("\t\t ENTER GAMEHUB USERNAME : "); // confirming user name
+                fflush(stdin);
+                gets(username);
+                if (strcmp(gh.username, username) != 0)
+                {
+                    printf("\t\t USERNAME NOT FOUND\n");
+                }
+                else
+                {
+                here:
+                    printf("\t\t ENTER GAMEHUB PASSWORD : "); // confirming user name
+                    fflush(stdin);
+                    takepass(login_pass);
+                    if (strcmp(login_pass, gh.pass) != 0)
+                    {
+                        printf("\n\t\t PASSWORD NOT MATCHED\n");
+                        goto here;
+                    }
+                    else
+                    {
+                        printf("\n\n\t\t ==================== LOGIN SUCCESSFULL ====================\n");
+                    }
+                    break;
+                }
+            }
+            break;
+        }
+        fclose(ptr);
+    }
+    else
+    {
+        printf("\n\t\tTHERE ARE NO ACCOUNTS TO LOG INTO GAMEHUB, PLEASE FIRST SIGN UP IN GAMEHUB");
+    }
+
     return 0;
 }
