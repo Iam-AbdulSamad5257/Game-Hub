@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <windows.h>
 
 int signup_count = 0; // this checks the no of sign ups in game hub
@@ -34,8 +35,8 @@ void about_us()   // ABOUT US MENU
         ch = toupper(getch());
         if (ch == 'B')
         {
-            loading();
-            main();
+            int loading();
+            int main();
             break;
         }
         else
@@ -51,7 +52,7 @@ int login_menu_function();
 int ttt();
 void menu();
 void gameboard();
-void reset_board(gameboard);
+int reset_board(int gameboard);
 void DECISION();
 int start();
 void help();
@@ -59,11 +60,12 @@ int gamers_turn();
 int winning_condition(int turn);
 int main_ttt();
 
-clear_screen() // clear screen function
+void clear_screen() // clear screen function
 {
     system("cls");
 }
-sound() // beep(800,300);
+
+void sound() // beep(800,300);
 {
     Beep(800, 300);
 }
@@ -166,7 +168,7 @@ int gamehub_menu_function() // takes input for signup and login options
         printf("\n\t\tENTER HERE : ");
         ch = getch();
         sound();
-        sleep(0.5);
+        Sleep(500);
         if (ch == '1') // SIGNUP
         {
             clear_screen();
@@ -402,7 +404,7 @@ int login()
                     else
                     {
                         printf("\n\n\t\t ==================== LOGIN SUCCESSFULL ====================\n");
-                        sleep(1);
+                        Sleep(1000);
                         sound();
                         login_menu();
                     }
@@ -576,14 +578,14 @@ int login_menu_function()
                 if (sure == 'Y')
                 {
                     printf("LOGGED OUT SUCCESSFULLY\n");
-                    sleep(2);
+                    Sleep(2000);
                     main();
                     break;
                 }
                 else if (sure == 'N')
                 {
                     printf("LOGGING OUT CANCELLED !");
-                    sleep(2);
+                    Sleep(2000);
                     login_menu();
                     login_menu_function();
                     break;
@@ -652,7 +654,7 @@ void gameboard() // game board
     Sleep(150);
     printf("\t\t\t\t\t\t\t        |     |     \n");
 }
-void reset_board(gameboard)
+int reset_board(int gameboard)
 {
     box[0] = '1';
     box[1] = '2';
@@ -663,10 +665,11 @@ void reset_board(gameboard)
     box[6] = '7';
     box[7] = '8';
     box[8] = '9';
+    return 0;
 }
 void DECISION()
 {
-    sleep(1);
+    Sleep(1000);
     Beep(700, 700);
     Beep(700, 1000);
     fflush(stdin);
@@ -682,19 +685,19 @@ void DECISION()
         if (decision == 'P')
         {
             clear_screen();
-            reset_board(gameboard);
+            int reset_board(int gameboard);
             // fflush(stdout);
             gamers_turn();
         }
         else if (decision == 'B')
         {
-            reset_board(gameboard);
+            int reset_board(int gameboard);
             ttt();
             break;
         }
         else if (decision == 'Q')
         {
-            reset_board(gameboard);
+            int reset_board(int gameboard);
             ttt();
             break;
         }
@@ -720,7 +723,7 @@ int start()
         {
             printf("\n\t\tPLAYER 1 ( %s ) CHOICE CONFIRMED --> \"%c\"\n\n", strupr(player1), choice1); // player 1 choice conformation
             Beep(800, 400);
-            sleep(0.5);
+            Sleep(500);
             printf("\tENTER PLAYER 2 NAME : ");
             fflush(stdin);
             gets(player2); // take the player 2 name
@@ -747,11 +750,9 @@ int start()
         {
             printf("\n\t\tWRONG CHOICE!, TRY AGAIN!!\n\n"); // if the choice is not ( X - O )
             Beep(800, 400);
-            sleep(1);
+            Sleep(1000);
         }
     }
-    // sleep(1.5);
-    // sleep(0.3);
     gamers_turn();
     return 0;
 }
