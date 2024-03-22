@@ -461,11 +461,16 @@ void login_menu()
     printf("\t\t||\t  |  PRESS '5' FOR ROCK PAPER SCISSORS |            ||\n");
     printf("\t\t||\t   ------------------------------------             ||\n");
     printf("\t\t||                                                          ||\n");
+    printf("\t\t||\t   --------------------------                       ||\n");
+    printf("\t\t||\t  |  PRESS '6' TO LOG OUT    |                      ||\n");
+    printf("\t\t||\t   --------------------------                       ||\n");
+    printf("\t\t||                                                          ||\n");
     printf("\t\t O |||||||||||||||||||||||||||||||||||||||||||||||||||||||| O \n\n");
 }
 int login_menu_function()
 {
     int ch;
+    char sure;
     while (1)
     {
         printf("\n\t\tENTER HERE : ");
@@ -478,32 +483,117 @@ int login_menu_function()
         }
         else if (ch == '2')
         {
-            printf("snake and ladder");
-            // snake_ladder();
+            printf("snake and ladder coming soon");
+            while (1)
+            {
+                printf("\n\n\t\tPRESS 'B' TO RETURN TO MENU : ");
+                ch = toupper(getch());
+                if (ch == 'B')
+                {
+                    login_menu();
+                    login_menu_function();
+                    break;
+                }
+                else
+                {
+                    printf("\n\t\tWRONG INPUT\n");
+                }
+            }
             break;
+            // snake_ladder();
         }
         else if (ch == '3')
         {
-            printf("word_guessing");
-            // word_guessing();
+            printf("word_guessing coming soon");
+            while (1)
+            {
+                printf("\n\n\t\tPRESS 'B' TO RETURN TO MENU : ");
+                ch = toupper(getch());
+                if (ch == 'B')
+                {
+                    login_menu();
+                    login_menu_function();
+                    break;
+                }
+                else
+                {
+                    printf("\n\t\tWRONG INPUT\n");
+                }
+            }
             break;
+            // word_guessing();
         }
         else if (ch == '4')
         {
-            printf("quiz");
-            // quiz();
+            printf("quiz coming soon");
+            while (1)
+            {
+                printf("\n\n\t\tPRESS 'B' TO RETURN TO MENU : ");
+                ch = toupper(getch());
+                if (ch == 'B')
+                {
+                    login_menu();
+                    login_menu_function();
+                    break;
+                }
+                else
+                {
+                    printf("\n\t\tWRONG INPUT\n");
+                }
+            }
             break;
+            // quiz();
         }
         else if (ch == '5')
         {
-
-            printf("rock paper scissors");
-            // rockpaper();
+            printf("rock paper scissors coming soon");
+            while (1)
+            {
+                printf("\n\n\t\tPRESS 'B' TO RETURN TO MENU : ");
+                ch = toupper(getch());
+                if (ch == 'B')
+                {
+                    login_menu();
+                    login_menu_function();
+                    break;
+                }
+                else
+                {
+                    printf("\n\t\tWRONG INPUT\n");
+                }
+            }
             break;
+            // rockpaper();
         }
         else if (ch == '6')
         {
-            login_menu();
+            while (1)
+            {
+                printf("ARE YOU SURE ? (Y/N) : ");
+                fflush(stdin);
+                sure = toupper(getch());
+                sound();
+                if (sure == 'Y')
+                {
+                    printf("LOGGED OUT SUCCESSFULLY\n");
+                    sleep(2);
+                    main();
+                    break;
+                }
+                else if (sure == 'N')
+                {
+                    printf("LOGGING OUT CANCELLED !");
+                    sleep(2);
+                    login_menu();
+                    login_menu_function();
+                    break;
+                }
+                else
+                {
+                    printf("WRONG INPUT !\n");
+                }
+            }
+
             break;
         }
         else
@@ -536,6 +626,7 @@ void menu() // menu of the game
     printf("\t\t\t|                                                                           |\n");
     printf("\t\t\tX - O - X - O - X - O - X - O - X - O - X - O - X - O - X - O - X - O - X - O\n\n");
     printf("ENTER THE OPTION : ");
+    fflush(stdin);
     choice = toupper(getch());
     Beep(800, 500);
     fflush(stdin);
@@ -590,19 +681,21 @@ void DECISION()
         Beep(800, 600);
         if (decision == 'P')
         {
-            system("cls");
+            clear_screen();
             reset_board(gameboard);
-            fflush(stdout);
+            // fflush(stdout);
             gamers_turn();
         }
         else if (decision == 'B')
         {
-            menu();
+            reset_board(gameboard);
+            ttt();
             break;
         }
         else if (decision == 'Q')
         {
-            menu();
+            reset_board(gameboard);
+            ttt();
             break;
         }
         else
@@ -617,19 +710,17 @@ int start()
     printf("\tENTER PLAYER 1 NAME : ");
     fflush(stdin);
     gets(player1); // take the player 1 name
-    // Beep(800, 400);
     while (1)
     {
         printf("\tENTER YOUR CHOICE ('X' OR 'O'): ");
         choice1 = toupper(fgetc(stdin)); // take the player 1 choice
-        // Beep(800, 400);
         fflush(stdin);
         OPTION_1 = choice1; // store the choice1 in option 1
         if (choice1 == 'X' || choice1 == 'O')
         {
             printf("\n\t\tPLAYER 1 ( %s ) CHOICE CONFIRMED --> \"%c\"\n\n", strupr(player1), choice1); // player 1 choice conformation
             Beep(800, 400);
-            Sleep(500);
+            sleep(0.5);
             printf("\tENTER PLAYER 2 NAME : ");
             fflush(stdin);
             gets(player2); // take the player 2 name
@@ -640,13 +731,15 @@ int start()
                 OPTION_2 = choice2;                                                                      // store the choice2 in option 2
                 printf("\n\t\tPLAYER 2 ( %s ) CHOICE CONFIRMED --> \"%c\"\n", strupr(player2), choice2); // player 2 choice conformation
                 Beep(800, 400);
+                break;
             }
             else
             {
                 choice2 = 'X';
-                OPTION_2 = choice2;                                                              // store the choice2 in option 2
-                printf("\n\t\tPLAYER 2 ( %s ) CHOICE CONFIRMED --> \"%c\"\n", player2, choice2); // player 2 choice conformation
+                OPTION_2 = choice2;                                                                      // store the choice2 in option 2
+                printf("\n\t\tPLAYER 2 ( %s ) CHOICE CONFIRMED --> \"%c\"\n", strupr(player2), choice2); // player 2 choice conformation
                 Beep(800, 400);
+                break;
             }
             break;
         }
@@ -654,11 +747,11 @@ int start()
         {
             printf("\n\t\tWRONG CHOICE!, TRY AGAIN!!\n\n"); // if the choice is not ( X - O )
             Beep(800, 400);
-            Sleep(1000);
+            sleep(1);
         }
     }
-    Sleep(1500);
-    Sleep(300);
+    // sleep(1.5);
+    // sleep(0.3);
     gamers_turn();
     return 0;
 }
@@ -666,21 +759,23 @@ void help()
 {
     char back; // stores input from user
     printf("THIS IS A TWO PLAYER GAME.\nYOU HAVE SELECT 'X' OR 'O' AT YOUR TURN\nIF THREE 'X' OR THREE 'O' ARE MARKED VERITCALLY, HORIZONTALLY OR DIAGONALLY AT THE END THEN THE PLAYER WINS");
-    printf("\n\vPRESS 'B' TO GO BACK...");
-    fflush(stdin);
-    back = toupper(getch()); // taking input from user and captalising the character
-    Beep(800, 600);
-    if (back == 'B') // checking if user entered letter 'B'
+    while (1)
     {
-        fflush(stdout);
-        menu();
-    }
-    else
-    {
-        printf("\n\n\tENTER THE CORRECT KEY...."); // if 'B' is not entered again taking the input
-        sleep(0.6);
-        clear_screen();
-        help();
+        printf("\n\vPRESS 'B' TO GO BACK...");
+        fflush(stdin);
+        back = toupper(getch()); // taking input from user and captalising the character
+        Beep(800, 600);
+        if (back == 'B') // checking if user entered letter 'B'
+        {
+            fflush(stdout);
+            ttt();
+            break;
+        }
+        else
+        {
+            printf("\n\n\tENTER THE CORRECT KEY...."); // if 'B' is not entered again taking the input
+            // sleep(0.6);
+        }
     }
 }
 int gamers_turn() //  switch the player turn according to game
@@ -710,6 +805,7 @@ int gamers_turn() //  switch the player turn according to game
                 while (1)
                 {
                     printf("\t\t\t\tENTER THE NUMBER TO MARK ON THE BOARD : ");
+                    fflush(stdin);
                     scanf("%d", &num);
                     Beep(800, 600);
                     if (num > 0 && num < 10) // check 0 < num < 10
@@ -736,7 +832,7 @@ int gamers_turn() //  switch the player turn according to game
                     {
                         printf("\n\n\tINVALID BOX NUMBER ( 1 - 9 )\n\n");
                         Sleep(900);
-                        break;
+                        // break;
                     }
                 }
                 if (BOX == 9) // if box = 9 ends the game
@@ -753,6 +849,7 @@ int gamers_turn() //  switch the player turn according to game
                 while (1)
                 {
                     printf("\t\t\t\tENTER THE NUMBER TO MARK ON THE BOARD : ");
+                    fflush(stdin);
                     scanf("%d", &num);
                     Beep(800, 600);
                     if (num > 0 && num < 10) // check 0 < num < 10
@@ -779,7 +876,7 @@ int gamers_turn() //  switch the player turn according to game
                     {
                         printf("\n\n\tINVALID BOX NUMBER ( 1 - 9 )\n\n");
                         Sleep(900);
-                        break;
+                        // break;
                     }
                 }
                 if (BOX == 9) // if box = 9 ends the game
@@ -808,7 +905,7 @@ int winning_condition(int turn) // check the winning condition of players
             printf("\n\n\t\t\t\t\t\t  [][][][][] PLAYER - 2 '%s' WINS !!! [][][][][]", player2);
         }
         DECISION();
-        exit(1);
+        // exit(1);
     }
     else if (box[3] == turn && box[4] == turn && box[5] == turn) // cond - 2
     {
@@ -821,7 +918,7 @@ int winning_condition(int turn) // check the winning condition of players
             printf("\n\n\t\t\t\t\t\t  [][][][][] PLAYER - 2 '%s' WINS !!! [][][][][]", player2);
         }
         DECISION();
-        exit(1);
+        // exit(1);
     }
     else if (box[6] == turn && box[7] == turn && box[8] == turn) // cond - 3
     {
@@ -834,7 +931,7 @@ int winning_condition(int turn) // check the winning condition of players
             printf("\n\n\t\t\t\t\t\t  [][][][][] PLAYER - 2 '%s' WINS !!! [][][][][]", player2);
         }
         DECISION();
-        exit(1);
+        // exit(1);
     }
     else if (box[0] == turn && box[3] == turn && box[6] == turn) // cond - 4
     {
@@ -847,7 +944,7 @@ int winning_condition(int turn) // check the winning condition of players
             printf("\n\n\t\t\t\t\t\t  [][][][][] PLAYER - 2 '%s' WINS !!! [][][][][]", player2);
         }
         DECISION();
-        exit(1);
+        // exit(1);
     }
     else if (box[1] == turn && box[4] == turn && box[7] == turn) // cond - 5
     {
@@ -860,7 +957,7 @@ int winning_condition(int turn) // check the winning condition of players
             printf("\n\n\t\t\t\t\t\t  [][][][][] PLAYER - 2 '%s' WINS !!! [][][][][]", player2);
         }
         DECISION();
-        exit(1);
+        // exit(1);
     }
     else if (box[2] == turn && box[5] == turn && box[8] == turn) // cond - 6
     {
@@ -873,7 +970,7 @@ int winning_condition(int turn) // check the winning condition of players
             printf("\n\n\t\t\t\t\t\t  [][][][][] PLAYER - 2 '%s' WINS !!! [][][][][]", player2);
         }
         DECISION();
-        exit(1);
+        // exit(1);
     }
     else if (box[2] == turn && box[4] == turn && box[6] == turn) // cond - 7
     {
@@ -886,7 +983,7 @@ int winning_condition(int turn) // check the winning condition of players
             printf("\n\n\t\t\t\t\t\t  [][][][][] PLAYER - 2 '%s' WINS !!! [][][][][]", player2);
         }
         DECISION();
-        exit(1);
+        // exit(1);
     }
     else if (box[0] == turn && box[4] == turn && box[8] == turn) // cond - 8
     {
@@ -899,11 +996,11 @@ int winning_condition(int turn) // check the winning condition of players
             printf("\n\n\t\t\t\t\t\t  [][][][][] PLAYER - 2 '%s' WINS !!! [][][][][]", player2);
         }
         DECISION();
-        exit(1);
+        // exit(1);
     }
     return 0;
 }
-int main_ttt()
+int ttt()
 {
     while (1)
     {
@@ -917,27 +1014,19 @@ int main_ttt()
         else if (choice == 'H')
         {
             clear_screen();
-            fflush(stdout);
             help();
             break;
         }
         else if (choice == 'Q')
         {
             login_menu();
+            login_menu_function();
+            break;
+        }
+        else
+        {
+            printf("WRONG INPUT !\n");
         }
     }
-    return 0;
-}
-int ttt()
-{
-    menu();
-    main_ttt();
-    start();
-    help();
-    gamers_turn();
-    // gameboard();
-    reset_board(gameboard);
-    DECISION();
-    winning_condition(1);
     return 0;
 }
