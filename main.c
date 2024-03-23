@@ -3,19 +3,22 @@
 #include <string.h>
 #include <stdlib.h>
 #include <windows.h>
+#include <ctype.h>
+#include <time.h>
+
+// GAME HUB VARIABLES AND FUNCTION DECLARATIONS
 
 int signup_count = 0; // this checks the no of sign ups in game hub
-
-// TIC TAC TOE GLOBAL VARIABLES
-char player1[15];             // store the player 1 name
-char player2[15];             // store the player 2 name
-char choice1, choice2;        // store the choice of two players( X - O )
-char decision;                //
-char choice;                  // takes the choice of the user from menu
-int turn_s;                   // stores the turns of the game
-char OPTION_1, OPTION_2;      // stores the choice1 and choice2
-char box[11] = {"123456789"}; // print on the board
-int index = 0;
+struct details        // signup variables are located
+{
+    char first_name[50];
+    char last_name[50];
+    int dob[11];
+    char gender[7];
+    char email[30];
+    char username[30];
+    char pass[30];
+};
 
 void gamehub_menu();         // main menu - shows game hub with sign up and login option
 int gamehub_menu_function(); // takes input for signup and login options
@@ -23,7 +26,9 @@ void takepass();
 void checkpass(); // take first time (or) new password from user with masking of '*'
 int signup();     // take confirmation password from user with masking of '*'
 int login();      // not defined yet
-void about_us()   // ABOUT US MENU
+void login_menu();
+int login_menu_function();
+void about_us() // ABOUT US MENU
 {
     char ch;
     printf("\n\t\t================== ABOUT GAME-HUB ==================\n");
@@ -36,7 +41,8 @@ void about_us()   // ABOUT US MENU
         if (ch == 'B')
         {
             int loading();
-            int main();
+            gamehub_menu();
+            gamehub_menu_function();
             break;
         }
         else
@@ -45,29 +51,12 @@ void about_us()   // ABOUT US MENU
         }
     }
 }
-void login_menu();
-int login_menu_function();
 
-// TIC TAC TOE FUNCTIONS
-int ttt();
-void menu();
-void gameboard();
-int reset_board(int gameboard);
-void DECISION();
-int start();
-void help();
-int gamers_turn();
-int winning_condition(int turn);
-int main_ttt();
+// EXTRA GAMEHUB FUNTIONS
 
 void clear_screen() // clear screen function
 {
     system("cls");
-}
-
-void sound() // beep(800,300);
-{
-    Beep(800, 300);
 }
 
 void blue() // text color
@@ -105,20 +94,45 @@ int loading() // loading view
     white();
     return 0;
 }
-
-struct details // signup variables are located
+void sound() // beep(800,300);
 {
-    char first_name[50];
-    char last_name[50];
-    int dob[11];
-    char gender[7];
-    char email[30];
-    char username[30];
-    char pass[30];
-};
+    Beep(800, 300);
+}
 
-int main()
+// TIC TAC TOE GLOBAL VARIABLES AND FUNCTION DECLARATIONS
+
+char player1[15];             // store the player 1 name
+char player2[15];             // store the player 2 name
+char choice1, choice2;        // store the choice of two players( X - O )
+char decision;                //
+char choice;                  // takes the choice of the user from menu
+int turn_s;                   // stores the turns of the game
+char OPTION_1, OPTION_2;      // stores the choice1 and choice2
+char box[11] = {"123456789"}; // print on the board
+int index = 0;
+
+int ttt();
+void menu();
+void gameboard();
+int reset_board(int gameboard);
+void DECISION();
+int start();
+void help();
+int gamers_turn();
+int winning_condition(int turn);
+int main_ttt();
+
+// ROCK PAPER SCISSORS VARIABLES AND FUNTION DECLARATIONS
+char rps_player[15];
+int rps_intro();
+int rps_game();
+int rps_main();
+
+// GAMEHUB WORKING FUNCTIONS
+
+int main() // MAIN
 {
+
     gamehub_menu();
     gamehub_menu_function();
 
@@ -165,7 +179,7 @@ int gamehub_menu_function() // takes input for signup and login options
     char ch;
     while (1)
     {
-        printf("\n\t\tENTER HERE : ");
+        // printf("\n\t\tENTER HERE : ");
         ch = getch();
         sound();
         Sleep(500);
@@ -302,7 +316,9 @@ int signup() // sign up function - take details and store in "gamehub.txt" file 
         takepass(gh.pass);
         if (strlen(gh.pass) < 4) // checks the length of password
         {
+            printf("\033[0;31m");
             printf("\n\t\t PASSWORD TOO SHORT\n");
+            printf("\033[0m");
         }
         else
         {
@@ -318,7 +334,9 @@ int signup() // sign up function - take details and store in "gamehub.txt" file 
         checkpass(check_pass);                // confirming password
         if (strcmp(gh.pass, check_pass) != 0) // comparing both passwords
         {
+            printf("\033[0;31m");
             printf("\n\t\t INCORRECT PASSWORD\n");
+            printf("\033[0m");
             while (1)
             {
                 printf("\t\t PRESS 'R' RETRY, PRESS 'B' TO RETURN TO MAIN MENU : ");
@@ -334,7 +352,9 @@ int signup() // sign up function - take details and store in "gamehub.txt" file 
                 }
                 else
                 {
+                    printf("\033[0;31m");
                     printf("\n\t\t WRONG INPUT\n");
+                    printf("\033[0m");
                 }
             }
         }
@@ -346,7 +366,11 @@ int signup() // sign up function - take details and store in "gamehub.txt" file 
             signup_count++;
             fclose(ptr);
 
-            printf("\n\n\t\t ================ SUCCESSFULLY SIGNED - IN =================\n\n");
+            printf("\n\n\t\t ================ ");
+            printf("\033[0;32m");
+            printf("SUCCESSFULLY SIGNED - IN");
+            printf("\033[0m");
+            printf(" =================\n\n");
             while (1)
             {
                 printf("\n\n\t\tPRESS 'B' TO RETURN TO MAIN MENU : ");
@@ -388,7 +412,9 @@ int login()
                 gets(username);
                 if (strcmp(gh.username, username) != 0)
                 {
+                    printf("\033[0;31m");
                     printf("\t\t USERNAME NOT FOUND\n");
+                    printf("\033[0m");
                 }
                 else
                 {
@@ -398,12 +424,18 @@ int login()
                     takepass(login_pass);
                     if (strcmp(login_pass, gh.pass) != 0)
                     {
+                        printf("\033[0;31m");
                         printf("\n\t\t PASSWORD NOT MATCHED\n");
+                        printf("\033[0m");
                         goto here;
                     }
                     else
                     {
-                        printf("\n\n\t\t ==================== LOGIN SUCCESSFULL ====================\n");
+                        printf("\n\n\t\t ==================== ");
+                        printf("\033[0;32m");
+                        printf("LOGIN SUCCESSFULL ");
+                        printf("\033[0m");
+                        printf("====================\n");
                         Sleep(1000);
                         sound();
                         login_menu();
@@ -475,7 +507,7 @@ int login_menu_function()
     char sure;
     while (1)
     {
-        printf("\n\t\tENTER HERE : ");
+        // printf("\n\t\tENTER HERE : ");
         ch = getch();
         if (ch == '1')
         {
@@ -548,7 +580,8 @@ int login_menu_function()
         }
         else if (ch == '5')
         {
-            printf("rock paper scissors coming soon");
+
+            rps_main();
             while (1)
             {
                 printf("\n\n\t\tPRESS 'B' TO RETURN TO MENU : ");
@@ -605,7 +638,7 @@ int login_menu_function()
     }
 }
 
-// TIC TAC TOE FUNTIONS
+// TIC TAC TOE  WORKING FUNTIONS
 
 void menu() // menu of the game
 {
@@ -634,8 +667,10 @@ void menu() // menu of the game
     fflush(stdin);
 }
 void gameboard() // game board
+
 {
     printf("\n");
+    printf("\033[0;36m");
     printf("\t\t\t\t\t\t\t        |     |     \n");
     Sleep(150);
     printf("\t\t\t\t\t\t\t     %c  |  %c  |  %c  \n", box[0], box[1], box[2]);
@@ -653,6 +688,7 @@ void gameboard() // game board
     printf("\t\t\t\t\t\t\t     %c  |  %c  |  %c  \n", box[6], box[7], box[8]);
     Sleep(150);
     printf("\t\t\t\t\t\t\t        |     |     \n");
+    printf("\033[0m");
 }
 int reset_board(int gameboard)
 {
@@ -685,19 +721,19 @@ void DECISION()
         if (decision == 'P')
         {
             clear_screen();
-            int reset_board(int gameboard);
+            reset_board(gameboard);
             // fflush(stdout);
             gamers_turn();
         }
         else if (decision == 'B')
         {
-            int reset_board(int gameboard);
+            reset_board(gameboard);
             ttt();
             break;
         }
         else if (decision == 'Q')
         {
-            int reset_board(int gameboard);
+            reset_board(gameboard);
             ttt();
             break;
         }
@@ -1029,5 +1065,166 @@ int ttt()
             printf("WRONG INPUT !\n");
         }
     }
+    return 0;
+}
+
+// ROCK PAPER SCISSORS WORKING FUNCTIONS
+
+int rps_intro()
+{
+    printf("\n\t\t\t**************************************************\n");
+    printf("\t\t\t*     Welcome to the ROCK PAPER SCISSOR game     *\n");
+    printf("\t\t\t**************************************************\n");
+    printf("\n\t\t\tREAD THE INSTRUCTIONS BEFORE STARTING THE GAME:\n\n");
+    printf("\t\t\t-You are playing against computer-\n\t\t\t-You have 3 chances and 1 point for each win-\n\t\t\t-Choose numbers as per options-\n\t\t\t\t0 - ROCK\n\t\t\t\t1 - PAPER\n\t\t\t\t2 - SCISSORS\n\t\t\t-All the best-");
+
+    while (1)
+    {
+        char key;
+        printf("\n\nPRESS 'C' TO CONTINUE :");
+        sound();
+        key = toupper(getch());
+        if (key == 'C')
+        {
+            break;
+        }
+        else
+        {
+            printf("\nPRESS THE ENTER KEY...\n");
+        }
+    }
+    clear_screen();
+    printf("\n\n\t\t\t<------------Let's get started------------>\n\n");
+    printf("\t\t\t\tENTER YOUR NAME: ");
+    fflush(stdin);
+    gets(rps_player);
+    printf("\n\t\t\t\tOPPONENT : COMPUTER\n\n");
+    Sleep(1000);
+    return 0;
+}
+int rps_game()
+{
+    clear_screen();
+    static int win = 0;
+    static int loose = 0;
+    static int draw = 0;
+
+    // opening
+
+    for (int i = 0, j = 1; i < 3; i++, j++)
+    {
+        srand(time(NULL) + i);
+        char comp_choice[] = {'R', 'P', 'S'}; // COMPUTERS RANDOM CHOICE SELECTION OPTIONS
+        char r = comp_choice[rand() % 3];
+        int rps_choice;
+
+        printf("\n\t\t\t\t------------ ROUND %d ------------\n\n", j);
+        while (1)
+        {
+            // printf("\033[0;31m");
+            printf("\n\t\t\t\tR-ROCK ? ");
+            // printf("\033[0m");
+
+            // printf("\033[0;34m");
+            printf("P-PAPER ? ");
+            // printf("\033[0m");
+
+            // printf("\033[0;32m");
+            printf("S-SCISSOR ? ==> ");
+            // printf("\033[0m");
+
+            fflush(stdin);
+
+            rps_choice = toupper(getc(stdin));
+
+            if (rps_choice == 'R' || rps_choice == 'P' || rps_choice == 'S')
+            {
+                printf("\n\t\t\t\t%s'S CHOICE: %c", strupr(rps_player), rps_choice);
+                break;
+            }
+            else
+            {
+                printf("\033[0;33m");
+                printf("\n\t\t\t\tWRONG INPUT !\n");
+                printf("\033[0m");
+            }
+        }
+
+        printf(" \n\n\t\t\t\tCOMPUTER'S CHOICE: %c\n", r); // COMPUTERS RANDOM CHOICE
+
+        if (rps_choice == r) // chance results
+        {
+            printf("\033[0;33m");
+            printf("\n\t\t\t\t* DRAW - NO POINTS *\n\n"); // NO POINTS
+            printf("\033[0m");
+            draw++;
+        }
+        else if (rps_choice == 'R' && r == 'S' || rps_choice == 'S' && r == 'P' || rps_choice == 'P' && r == 'R') // POINT TO PLAYER
+        {
+            printf("\033[0;33m");
+            printf("\n\t\t\t\t* 1 POINT FOR %s *\n\n", strupr(rps_player));
+            printf("\033[0m");
+            win++;
+        }
+        else if (r == 'R' && rps_choice == 'S' || r == 'P' && rps_choice == 'R' || r == 'S' && rps_choice == 'P') // POINT FOR COMPUTER
+        {
+            printf("\033[0;33m");
+            printf("  \n\t\t\t\t* 1 POINT FOR COMPUTER *\n\n");
+            printf("\033[0m");
+            loose++;
+        }
+    }
+    printf("\v"); // Full round result
+
+    if (win == 1 && draw == 1 && loose == 1 || draw == 3) // CONDITIONS FOR DRAW
+    {
+        sound();
+        printf("\033[0;32m");
+        printf("\t\t\t *THIS GAME IS DRAWN, PLEASE TRY AGAIN!*\n\n");
+        printf("\033[0m");
+    }
+    else if (win == 2 || win == 1 && draw == 2 || win == 3) // CONDITIONS FOR WINNING
+    {
+        sound();
+        printf("\033[0;32m");
+        printf("\t\t\t *CONGRATULATIONS, YOU HAVE WON THIS GAME WITH TOTAL OF POINTS %d*\n\n", win);
+        printf("\033[0m");
+    }
+    else
+    {
+        sound();
+        printf("\033[0;32m");
+        printf("\t\t\t *OOPS! YOU LOST BETTER LUCK NEXT TIME*\n\n"); // PLAYER LOSES THE GAME
+        printf("\033[0m");
+    }
+
+    while (1)
+    {
+        printf("\t\t\tDO YOU WANT TO PLAY AGAIN ? (Y/N): "); // REPETITION
+        sound();
+        char again = toupper(getch());
+        if (again == 'Y')
+        {
+            system("cls");
+            rps_game();
+        }
+        else if (again == 'N')
+        {
+            printf("\nTHANK YOU FOR PLAYING...\n\n");
+            Sleep(2000);
+            login_menu();
+            login_menu_function();
+        }
+        else
+            printf("WRONG INPUT !\n");
+    }
+
+    return 0;
+}
+int rps_main()
+{
+    clear_screen();
+    rps_intro();
+    rps_game();
     return 0;
 }
