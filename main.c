@@ -1141,19 +1141,24 @@ int rps_game()
         printf("\t\t\t *THIS GAME IS DRAWN, PLEASE TRY AGAIN!*\n\n");
         printf("\033[0m");
     }
-    else if (win == 2 || win == 1 && draw == 2 || win == 3) // CONDITIONS FOR WINNING
+    else if (win == 2 && draw == 1|| win == 2 && loose == 1|| win == 1 && draw == 2 || win == 3) // CONDITIONS FOR WINNING
     {
-        sound();
         printf("\033[0;32m");
         printf("\t\t\t *CONGRATULATIONS, YOU HAVE WON THIS GAME WITH TOTAL OF POINTS %d*\n\n", win);
         printf("\033[0m");
+        sound();
     }
-    else
+    else if(loose == 3 || loose == 2 && win == 1 || loose == 2 && draw == 1 || draw == 2 && loose == 1 )
     {
+        fflush(stdin);
         sound();
         printf("\033[0;32m");
         printf("\t\t\t *OOPS! YOU LOST BETTER LUCK NEXT TIME*\n\n"); // PLAYER LOSES THE GAME
         printf("\033[0m");
+    }
+    else
+    {
+        printf(" ");
     }
 
     while (1)
@@ -1163,6 +1168,9 @@ int rps_game()
         char again = toupper(getch());
         if (again == 'Y')
         {
+            win = 0;
+            loose = 0;
+            draw = 0;
             system("cls");
             rps_game();
         }
