@@ -40,9 +40,8 @@ void about_us() // ABOUT US MENU
         ch = toupper(getch());
         if (ch == 'B')
         {
-            int loading();
-            gamehub_menu();
-            gamehub_menu_function();
+            loading();
+            main();
             break;
         }
         else
@@ -463,6 +462,7 @@ int login()
                         printf("====================\n");
                         Sleep(1000);
                         sound();
+                        loading();
                         login_menu();
                     }
                     break;
@@ -647,6 +647,7 @@ int login_menu_function()
                 {
                     printf("LOGGED OUT SUCCESSFULLY\n");
                     Sleep(2000);
+                    loading();
                     main();
                     break;
                 }
