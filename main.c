@@ -35,8 +35,8 @@ void about_us()   // ABOUT US MENU
         ch = toupper(getch());
         if (ch == 'B')
         {
-            int loading();
-            int main();
+            loading();
+            main();
             break;
         }
         else
@@ -406,6 +406,7 @@ int login()
                         printf("\n\n\t\t ==================== LOGIN SUCCESSFULL ====================\n");
                         Sleep(1000);
                         sound();
+                        loading();
                         login_menu();
                     }
                     break;
@@ -579,6 +580,7 @@ int login_menu_function()
                 {
                     printf("LOGGED OUT SUCCESSFULLY\n");
                     Sleep(2000);
+                    loading();
                     main();
                     break;
                 }
